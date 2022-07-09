@@ -1,5 +1,11 @@
 <drac2>
 DIGITS = ''.join(str(i) for i in range(10))
+GANDALF = 'ᚠ'
+SAURON = '👁'
+SUCCESS = 'Ⴀ'
+
+FAVOURED = {"fav", "favoured", "adv", "advantage"}
+ILLFAVOURED = {"ill", "dis", "disadvantage"}
 
 err_usage = 'echo "!hobbit <TN> <skill points> [adv] [hope]"'
 args=&ARGS&
@@ -32,9 +38,9 @@ footer = ""
 
 def format_feat(x):
     if x == 12:
-        return "**🧙‍♂️**"
+        return f"**{GANDALF}**"
     elif x == 0:
-        return "👁️"
+        return f"{SAURON}"
     else:
         return str(x)
 
@@ -51,15 +57,17 @@ F, F_str = roll_feat(has_adv)
 
 def format_success(x):
     if x == 6:
-        return "**6**"
+        return f"**{SUCCESS}**"
     else:
         return str(x)
 
-def roll_success(num):
+def roll_success(num, weary=False):
     if not num:
         return 0, ""
 
     rolls = [roll("1d6") for _ in range(num)]
+    if weary:
+        rolls = [(r if r > 3 else 0) for r in rolls]
     return sum(rolls), f"({', '.join(format_success(r) for r in rolls)})"
 
 S, S_str = roll_success(Skill + int(has_hope))
@@ -78,8 +86,14 @@ else:
     result_str = f"**{'✅ Success' if success else '❌ Failure'}**: **{result}** vs. TN {TN}"    
 
 # I got lazy here sorry
-if success and "6" in S_str:
-    footer = "Rolled a 6!"
+if success and SUCCESS in S_str:
+    success_count = S_str.count(SUCCESS)
+    if success_count > 2:
+        footer = f"{SUCCESS}{SUCCESS}+ Extraordinary success!"
+    elif success_count == 2:
+        footer = f"{SUCCESS}{SUCCESS} Extraordinary success!"
+    elif success_count == 1:
+        footer = f"{SUCCESS} Great success!"
  
 return (f'''
     embed
