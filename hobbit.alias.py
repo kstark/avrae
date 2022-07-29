@@ -1,7 +1,13 @@
 <drac2>
+"""
+HOBBIT ROLLING for LOTR.
+
+For custom Sauron eye emoji, add this command to your server and tell Avrae what custom emoji to use, e.g.:
+    !svar HOBBIT_SAURON :sauron:
+"""
 DIGITS = ''.join(str(i) for i in range(10))
 GANDALF = 'ᚠ'
-SAURON = '👁'
+SAURON = get_svar('HOBBIT_SAURON') or '👁'
 SUCCESS = 'Ⴀ'
 
 FAVOURED = {"fav", "favoured", "adv", "advantage"}
