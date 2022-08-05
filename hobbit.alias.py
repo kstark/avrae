@@ -91,8 +91,11 @@ else:
     success = result >= TN
     result_str = f"**{'✅ Success' if success else '❌ Failure'}**: **{result}** vs. TN {TN}"    
 
+color = '#18f239' if success else '#f21818'
+
 # I got lazy here sorry
 if success and SUCCESS in S_str:
+    color = '#fada07'
     success_count = S_str.count(SUCCESS)
     if success_count > 2:
         footer = f"{SUCCESS}{SUCCESS}+ Extraordinary success!"
@@ -105,6 +108,7 @@ return (f'''
     embed
     -desc "{result_str}"
     -footer "{footer}"
+    -color "{color}"
     -f "Rolls|{rolls_str}"
 '''.replace("\n", " ").strip())
 </drac2>
